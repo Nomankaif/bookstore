@@ -1,9 +1,9 @@
 import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
-import bookroute from "./Routes/book-route.js"
-import userroute from "./Routes/user-route.js"
-import cors from "cors"
+import bookroute from "./Routes/book-route.js";
+import userroute from "./Routes/user-route.js";
+import cors from "cors";
 
 const app = express();
 dotenv.config();
@@ -11,21 +11,29 @@ dotenv.config();
 const PORT = process.env.PORT || 4001;
 const URL = process.env.MONGO_URL;
 
+// Configure CORS with the frontend URL
+const corsOptions = {
+  origin: 'https://yourfrontenddomain.com', // Replace with your frontend URL
+  methods: ['GET', 'POST'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+};
+app.use(cors(corsOptions));
 
-
-
-app.use(cors());
 app.use(express.json());
+
+// Test route
 app.get("/", (req, res) => {
-  res.send("Noman kaif is best");
+  res.send("Noman Kaif is best");
 });
 
-try {
-  mongoose.connect(URL);
-  console.log("connected to the database");
-} catch (err) {
-  console.log(err);
-}
+// MongoDB connection with error handling
+mongoose.connect(URL)
+  .then(() => {
+    console.log("Connected to the database");
+  })
+  .catch((err) => {
+    console.error("Error connecting to MongoDB:", err);
+  });
 // define routr
 app.use("/book",bookroute)
 app.use("/book/save",bookroute)
