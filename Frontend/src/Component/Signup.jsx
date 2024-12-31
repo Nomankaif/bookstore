@@ -21,7 +21,7 @@ function Signup() {
       confirmpassword:data.confirmpassword
     }
 
-    await axios.post("http://localhost:4001/user/sign",userInfo)
+    await axios.post("https://bookstore-1-khy1.onrender.com/user/sign",userInfo)
     .then((res)=>{
       console.log(res.data.user);
       if(res.data){

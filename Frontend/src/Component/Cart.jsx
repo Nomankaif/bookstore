@@ -13,7 +13,7 @@ const Cart = (props) => {
 
       try {
         const allItems = await axios.get(
-          `http://localhost:4001/user/cartitems/getcart`,
+          `https://bookstore-1-khy1.onrender.com/user/cartitems/getcart`,
           {
             params: { id: userId }, // Pass userId as a query parameter
           }
@@ -35,7 +35,7 @@ const Cart = (props) => {
       console.log(bookId)
       console.log(userId)
       try{
-        const response=await axios.delete(`http://localhost:4001/user/deleteitems/deletecart?userid=${userId}&bookid=${bookId}`)
+        const response=await axios.delete(`https://bookstore-1-khy1.onrender.com/user/deleteitems/deletecart?userid=${userId}&bookid=${bookId}`)
         if (response.status === 200) {
           console.log("Item deleted successfully:", response.data);
           window.location.reload()

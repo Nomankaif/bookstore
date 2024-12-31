@@ -12,7 +12,7 @@ export const FreeBook = (props) => {
   useEffect(() => {
     const getFreeBook = async() => {
       try {
-        const res = await axios.get("http://localhost:4001/book");
+        const res = await axios.get("https://bookstore-1-khy1.onrender.com/book");
       
         setFreeBook(res.data.filter((data)=>data.category==="free"));
       } catch (err) {
@@ -33,7 +33,7 @@ export const FreeBook = (props) => {
  
     
     try {
-      const res = await axios.post(`http://localhost:4001/user/cart/addcart/${id}`,{
+      const res = await axios.post(`https://bookstore-1-khy1.onrender.com/user/cart/addcart/${id}`,{
         userId: userId,
         quantity:1,
       });

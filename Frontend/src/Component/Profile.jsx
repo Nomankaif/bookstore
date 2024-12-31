@@ -39,7 +39,7 @@ const AdminProfile = () => {
         adminget()
 
         const getbooks=async()=>{
-            await axios.get(`http://localhost:4001/user/publish/getbook/${userId}`)
+            await axios.get(`https://bookstore-1-khy1.onrender.com/user/publish/getbook/${userId}`)
             .then((res)=>{
                 console.log(res.data)
                 updatebooks(res.data)

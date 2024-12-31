@@ -32,7 +32,7 @@ const Publishform = () => {
         description:data.description,
         price:data.price
     }    
-    await axios.post(`http://localhost:4001/user/book/upload/${userId}`,newbook)
+    await axios.post(`https://bookstore-1-khy1.onrender.com/user/book/upload/${userId}`,newbook)
     .then((res) => {
         console.log(res.data);
         if (res.data) {

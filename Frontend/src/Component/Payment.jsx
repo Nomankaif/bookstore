@@ -12,7 +12,7 @@ export const Payment = () => {
     useEffect(() => {
         const fetchBookDetails = async () => {
             try {
-                const res = await axios.get(`http://localhost:4001/user/paybook/getpaybook/${id}`);
+                const res = await axios.get(`https://bookstore-1-khy1.onrender.com/user/paybook/getpaybook/${id}`);
                 setBook(res.data);
                 setLoading(false);
             } catch (err) {
