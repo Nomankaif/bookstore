@@ -1,0 +1,19 @@
+
+------------***************************FRONTEND*******************-------------------------------
+--------------to strat-----------
+we used reat+vite=npm run dev
+
+
+libraries to design UI
+daizy ul 
+react slick
+
+for forms i use 
+react-hook-form
+
+for backend
+
+first type command npm init
+then install express js
+give script to star the server  for example    ===  "start":" node index.js"
+now to strat backend server """""""""""""""npm start"""""""""""""""""""""""""""""
