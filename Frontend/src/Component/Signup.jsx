@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { json, Link, useNavigate } from "react-router-dom";
 import Login from "./Login";
 import axios from "axios"
-
+import { BASE_URL } from "../Config";
 function Signup() {
   const navigate=useNavigate();
   const {
@@ -21,7 +21,7 @@ function Signup() {
       confirmpassword:data.confirmpassword
     }
 
-    await axios.post("https://bookstore-1-khy1.onrender.com/user/sign",userInfo)
+    await axios.post(`${BASE_URL}/user/sign`,userInfo)
     .then((res)=>{
       console.log(res.data.user);
       if(res.data){

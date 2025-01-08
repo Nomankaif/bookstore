@@ -1,19 +1,21 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import Navbar from "./Navbar";
-
+import { BASE_URL } from "../Config";
 const Cart = (props) => {
   const [cart, setCart] = useState([]);
+
+
 
   useEffect(() => {
     const getItems = async () => {
       const user = JSON.parse(localStorage.getItem("user"));
       const userId = user.id;
-      console.log(userId)
+ 
 
       try {
         const allItems = await axios.get(
-          `https://bookstore-1-khy1.onrender.com/user/cartitems/getcart`,
+          `${BASE_URL}/user/cartitems/getcart`,
           {
             params: { id: userId }, // Pass userId as a query parameter
           }
@@ -32,10 +34,9 @@ const Cart = (props) => {
     const handleDelete =async(bookId)=>{
       const user=JSON.parse(localStorage.getItem("user"));
       const userId=user.id;
-      console.log(bookId)
-      console.log(userId)
+     
       try{
-        const response=await axios.delete(`https://bookstore-1-khy1.onrender.com/user/deleteitems/deletecart?userid=${userId}&bookid=${bookId}`)
+        const response=await axios.delete(`${BASE_URL}/user/deleteitems/deletecart?userid=${userId}&bookid=${bookId}`)
         if (response.status === 200) {
           console.log("Item deleted successfully:", response.data);
           window.location.reload()

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import { BASE_URL } from '../Config';
 
 export const Payment = () => {
     const { id } = useParams();
@@ -12,7 +13,7 @@ export const Payment = () => {
     useEffect(() => {
         const fetchBookDetails = async () => {
             try {
-                const res = await axios.get(`https://bookstore-1-khy1.onrender.com/user/paybook/getpaybook/${id}`);
+                const res = await axios.get(`${BASE_URL}/user/paybook/getpaybook/${id}`);
                 setBook(res.data);
                 setLoading(false);
             } catch (err) {

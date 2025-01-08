@@ -1,6 +1,7 @@
   import React, { useEffect, useState } from "react";
   import Cards from "./Card";
   import axios from "axios";
+  import { BASE_URL } from "../Config";
   import { Sellcard } from "./Sellcard";
   export const Course = () => {
     const [book, setBook] = useState([]);
@@ -9,7 +10,7 @@
         const users=JSON.parse(localStorage.getItem("user"))
         const userId=users.id
         try {
-          const res = await axios.get(`https://bookstore-1-khy1.onrender.com/user/getall/publishbooks/${userId}`);
+          const res = await axios.get(`${BASE_URL}/user/getall/publishbooks/${userId}`);
           console.log(res.data);
           setBook(res.data);
         } catch (err) {

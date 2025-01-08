@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Signup from "./Signup";
 import axios from "axios";
 import { Toaster,toast } from "react-hot-toast";
-
+import { BASE_URL } from "../Config";
 export const Login = (props) => {
   const [login, setLogin] = useState(false);
   const { register, handleSubmit, formState: { errors } } = useForm();
@@ -17,7 +17,7 @@ export const Login = (props) => {
     }
 
 
-    await axios.post("https://bookstore-1-khy1.onrender.com/user/check/login",userInfo)
+    await axios.post(`${BASE_URL}/user/check/login`,userInfo)
     .then((res)=>{
       console.log(res.data);
       if(res.data){

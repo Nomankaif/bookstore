@@ -1,13 +1,13 @@
 
 import axios from 'axios'
 import React, { createContext, useContext, useState, useEffect } from "react";
-
+import { BASE_URL } from '../Config';
 export const BookContext = createContext();
 export const BookProvider = ({children}) => {
     const[books,setBooks]=useState(null);
     const fetchBookById=async(id)=>{
         try{
-            const res=await axios.get(`https://bookstore-1-khy1.onrender.com/book/get/${id}`);
+            const res=await axios.get(`${BASE_URL}/book/get/${id}`);
             setBooks(res.data)
             const storeData=JSON.stringify(res.data)
             localStorage.setItem("cart",storeData)

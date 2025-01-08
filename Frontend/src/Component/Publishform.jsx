@@ -3,7 +3,7 @@ import React from 'react';
 import { useForm } from "react-hook-form";
 import { Toaster,toast } from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
-
+import { BASE_URL } from '../Config';
 const Publishform = () => {
     const navigate=useNavigate()
   const {
@@ -32,7 +32,7 @@ const Publishform = () => {
         description:data.description,
         price:data.price
     }    
-    await axios.post(`https://bookstore-1-khy1.onrender.com/user/book/upload/${userId}`,newbook)
+    await axios.post(`${BASE_URL}/user/book/upload/${userId}`,newbook)
     .then((res) => {
         console.log(res.data);
         if (res.data) {

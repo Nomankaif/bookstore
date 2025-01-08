@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthProvider';
 import { Logout } from './Logout';
 import axios from 'axios';
-
+import { BASE_URL } from '../Config';
 const AdminProfile = () => {
     const navigate = useNavigate();
     const [Auth, setAuth] = useAuth();
@@ -39,7 +39,7 @@ const AdminProfile = () => {
         adminget()
 
         const getbooks=async()=>{
-            await axios.get(`https://bookstore-1-khy1.onrender.com/user/publish/getbook/${userId}`)
+            await axios.get(`${BASE_URL}/user/publish/getbook/${userId}`)
             .then((res)=>{
                 console.log(res.data)
                 updatebooks(res.data)

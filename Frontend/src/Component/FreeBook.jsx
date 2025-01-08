@@ -6,13 +6,14 @@ import Slider from "react-slick";
 import Cards from "./Card";
 import axios from "axios";
 import { json, useNavigate } from "react-router-dom";
+import { BASE_URL } from "../Config";
 export const FreeBook = (props) => {
   const [freeBook, setFreeBook] = useState([]);
   const navigate=useNavigate();
   useEffect(() => {
     const getFreeBook = async() => {
       try {
-        const res = await axios.get("https://bookstore-1-khy1.onrender.com/book");
+        const res = await axios.get(`${BASE_URL}/book`);
       
         setFreeBook(res.data.filter((data)=>data.category==="free"));
       } catch (err) {
@@ -33,7 +34,7 @@ export const FreeBook = (props) => {
  
     
     try {
-      const res = await axios.post(`https://bookstore-1-khy1.onrender.com/user/cart/addcart/${id}`,{
+      const res = await axios.post(`${BASE_URL}/user/cart/addcart/${id}`,{
         userId: userId,
         quantity:1,
       });
