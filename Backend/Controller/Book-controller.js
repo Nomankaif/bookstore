@@ -1,16 +1,16 @@
 import Book from "../Model/book_model.js";
 import mongoose from "mongoose";
-export const getBook=async(req,res)=>{
-    try{
-
-        const book=await Book.find();
-        res.status(200).json(book);
-    }catch(err){
-
-        console.log("Error",err);
-        res.status(500).json(err);
+export const getBook = async (req, res) => {
+    try {
+      const books = await Book.find();
+      res.status(200).json(books);
+    } catch (err) {
+      console.error("Error fetching books:", err.message); // Log detailed error message
+      console.error(err.stack); // Log the stack trace
+      res.status(500).json({ message: "Error fetching books", error: err.message });
     }
-}
+  };
+  
 export const getBookById = async (req, res) => {
     const { id } = req.params; // Extract the ID from request parameters
 
