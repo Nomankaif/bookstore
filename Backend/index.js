@@ -14,8 +14,8 @@ const URL = process.env.MONGO_URL;
 // Configure CORS with the frontend URL
 const corsOptions = {
   origin: [
+    'http://localhost:5173' , 
     'https://bookstore-frontend-final.onrender.com',
-    'http://localhost:5173'  // Corrected port
   ],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
