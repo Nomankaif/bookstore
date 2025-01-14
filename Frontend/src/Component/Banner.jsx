@@ -1,7 +1,24 @@
-import React from 'react'
+import React from 'react';
+import { useState } from 'react';
 import banner from "/Banner.png";
+import { ChevronLeft, ChevronRight, Book, Star, Mail } from 'lucide-react';
 const Banner  = () => {
+  
+  const testimonials = [
+    { id: 1, text: "The best bookstore I've ever visited!", author: "Sarah P." },
+    { id: 2, text: "Amazing collection and great prices!", author: "Mike R." },
+    { id: 3, text: "Outstanding customer service!", author: "Emma T." }
+  ];
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % testimonials.length);
+  };
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+  };
+  const [currentSlide, setCurrentSlide] = useState(0);
   return(
+    <>
     <div className=" max-w-screen-2xl container mx-auto md:px-20 px-4 flex flex-col md:flex-row my-10">
         <div className="w-full order-2 md:order-1 md:w-1/2 mt-12 md:mt-36">
           <div className="space-y-8">
@@ -10,9 +27,8 @@ const Banner  = () => {
               <span className="text-pink-500">new everyday!!!</span>
             </h1>
             <p className="text-sm md:text-xl">
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolor,
-              et totam. Tempora amet atque expedita, quae corrupti totam sed
-              pariatur corporis at veniam est voluptas animi!
+            "Explore our bookstore for a wide range of books, from timeless classics to
+             modern bestsellers, catering to every reader."
             </p>
             <label className="input input-bordered flex items-center gap-2">
               <svg
@@ -36,7 +52,37 @@ const Banner  = () => {
             alt=""
           />
         </div>
+       
       </div>
+      <div className="bg-pink-50 py-16 mb-14">
+        <div className="max-w-screen-xl mx-auto px-4">
+          <h2 className="text-3xl font-bold text-center mb-12">What Our Readers Say</h2>
+          <div className="relative max-w-2xl mx-auto">
+            <div className="flex items-center justify-between">
+              <button 
+                onClick={prevSlide}
+                className="p-2 rounded-full bg-white shadow-lg hover:bg-gray-50"
+              >
+                <ChevronLeft className="w-6 h-6" />
+              </button>
+              <div className="text-center px-8">
+                <p className="text-xl italic mb-4">"{testimonials[currentSlide].text}"</p>
+                <p className="font-medium">- {testimonials[currentSlide].author}</p>
+              </div>
+              <button 
+                onClick={nextSlide}
+                className="p-2 rounded-full bg-white shadow-lg hover:bg-gray-50"
+              >
+                <ChevronRight className="w-6 h-6" />
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+     
+    
+      </>
+      
    )
 
  }

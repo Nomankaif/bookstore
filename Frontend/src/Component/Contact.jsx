@@ -26,23 +26,23 @@ export const Contact = (props) => {
 
 
     {/* Contact Information */}
-    <div className="flex justify-around mt-8">
-      <div className="contact-item text-center">
-        <i className="fa-solid fa-mobile fa-2xl text-pink-600"></i>
-        <div className="font-bold mt-2">Phone No</div>
+    <div className="flex flex-col md:flex-row sm:justify-evenly justify-around mt-8 h-[500px] md:h-[100px] ">
+      <div className="contact-item text-center   md:mt-2">
+        <i className="fa-solid fa-mobile fa-2xl text-pink-600 "></i>
+        <div className="font-bold md:mt-2 sm:mt-10">Phone No</div>
         <div className="text-gray-700">+91-6302741807</div>
       </div>
-      <div className="contact-item text-center">
+      <div className="contact-item text-center  md:mt-2">
         <i className="fa-solid fa-location-dot fa-2xl text-pink-600"></i>
         <div className="font-bold mt-2">Address</div>
         <div className="text-gray-700">Hyderabad, India</div>
       </div>
-      <div className="contact-item text-center">
+      <div className="contact-item text-center  md:mt-2">
         <i className="fa-solid fa-envelope fa-2xl text-pink-600"></i>
         <div className="font-bold mt-2">Email</div>
         <div className="text-gray-700">mdnomankaif55@gmail.com</div>
       </div>
-      <div className="contact-item text-center">
+      <div className="contact-item text-center  md:mt-2">
         <i className="fa-solid fa-building fa-2xl text-pink-600"></i>
         <div className="font-bold mt-2">Working hours</div>
         <div className="text-gray-700">9AM to 5PM</div>
@@ -83,7 +83,7 @@ export const Contact = (props) => {
         </button>
       </div>
 
-      <div className="right-section w-full md:w-1/3 p-6">
+      <div className="right-section md:block sm:hidden md:w-1/3 p-6">
         <img
           src={growth}
           alt="Growth Image"

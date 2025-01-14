@@ -119,16 +119,18 @@ const AdminProfile = () => {
                                 <h2 className="text-2xl font-bold bg-gradient-to-r from-emerald-600 to-emerald-400 bg-clip-text text-transparent">
                                     Published Books
                                 </h2>
-                                <p className="text-gray-500 mt-1">Manage your published works</p>
+                                <p className="text-gray-500 mt-1 hidden sm:block">Manage your published works</p>
+
                             </div>
                             <Link to="/publishbook">
-                                <button className="group px-6 py-3 rounded-2xl bg-gradient-to-r from-emerald-500 to-emerald-400 text-white font-medium transition-all duration-300 hover:shadow-lg hover:shadow-emerald-500/25 active:scale-95">
-                                    <span className="flex items-center gap-2">
-                                        <Plus className="w-4 h-4 transition-transform group-hover:rotate-90" />
-                                        Add New Book
-                                    </span>
-                                </button>
-                            </Link>
+    <button className="group px-6 py-3 rounded-2xl bg-gradient-to-r from-emerald-500 to-emerald-400 text-white font-medium transition-all duration-300 hover:shadow-lg hover:shadow-emerald-500/25 active:scale-95">
+        <span className="flex items-center gap-2">
+            <Plus className="w-4 h-4 transition-transform group-hover:rotate-90" />
+            <span className="hidden sm:block">Add New Book</span>
+        </span>
+    </button>
+</Link>
+
                         </div>
                     </div>
                     <div className="p-8">

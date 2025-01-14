@@ -209,7 +209,7 @@ const Publishform = () => {
                 step="0.01"
                 {...register("price", { 
                   required: "Price is required",
-                  min: { value: 0.99, message: "Price must be at least $0.99" },
+                  min: { value: 0.01, message: "Price must be at least $0.99" },
                   pattern: { value: /^\d+(\.\d{1,2})?$/, message: "Invalid price format" }
                 })}
                 className="w-full pl-8 pr-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"

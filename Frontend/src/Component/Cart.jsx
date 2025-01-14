@@ -1,99 +1,157 @@
-import axios from "axios";
 import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { Trash2 } from "lucide-react";
 import Navbar from "./Navbar";
 import { BASE_URL } from "../Config";
-const Cart = (props) => {
+import { jsPDF } from "jspdf";
+
+const Cart = () => {
   const [cart, setCart] = useState([]);
-
-
 
   useEffect(() => {
     const getItems = async () => {
       const user = JSON.parse(localStorage.getItem("user"));
       const userId = user.id;
- 
 
       try {
         const allItems = await axios.get(
           `${BASE_URL}/user/cartitems/getcart`,
           {
-            params: { id: userId }, // Pass userId as a query parameter
+            params: { id: userId },
           }
         );
-        setCart(allItems.data); // Set state with the fetched data
+        setCart(allItems.data);
       } catch (err) {
         console.log("Error fetching cart items:", err);
       }
     };
 
-    getItems(); // Call the function inside useEffect to avoid infinite loop
-  }, []); // Empty dependency array to run only once on mount
+    getItems();
+  }, []);
 
-  
+  const handleDelete = async (bookId) => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    const userId = user.id;
 
-    const handleDelete =async(bookId)=>{
-      const user=JSON.parse(localStorage.getItem("user"));
-      const userId=user.id;
-     
-      try{
-        const response=await axios.delete(`${BASE_URL}/user/deleteitems/deletecart?userid=${userId}&bookid=${bookId}`)
-        if (response.status === 200) {
-          console.log("Item deleted successfully:", response.data);
-          window.location.reload()
-          
-          // Optionally, update your UI (e.g., remove the item from the list)
-        } else {
-          console.error("Error deleting item:", response.data.message);
-        }
-        
-      }catch(err){
-        console.log(err)
+    try {
+      const response = await axios.delete(
+        `${BASE_URL}/user/deleteitems/deletecart?userid=${userId}&bookid=${bookId}`
+      );
+      if (response.status === 200) {
+        console.log("Item deleted successfully:", response.data);
+        window.location.reload();
+      } else {
+        console.error("Error deleting item:", response.data.message);
       }
+    } catch (err) {
+      console.log(err);
     }
-  
+  };
+
+  const calculateTotal = () => {
+    return cart.reduce((total, item) => total + (item.book.price * item.quantity), 0);
+  };
+
+  const handleDownload = () => {
+    const doc = new jsPDF();
+
+    // Add "Thanks for visiting" message
+    doc.setFontSize(40);
+    doc.text("Thanks for visiting!", 20, 30);
+    doc.text("By MD NOMAN KAIF!", 30, 60);
+
+    
+
+    // Save the PDF
+    doc.save("Book.pdf");
+  };
+
   return (
     <>
-      <Navbar></Navbar>
-      <div className="max-w-6xl mx-auto py-8 mt-12">
+      <Navbar />
+      <div className="max-w-6xl mx-auto py-4 sm:py-8 mt-20 px-4">
+        <h1 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-8">Shopping Cart</h1>
+        
         {cart.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {cart.map((data, index) => (
-              <div
-                key={index}
-                className="flex flex-col p-6 bg-white rounded-lg shadow-md dark:bg-gray-800 dark:text-white"
-              >
-                <img
-                  src={data.book.image}
-                  alt={data.book.name}
-                  className="w-full h-48 object-cover rounded-lg mb-4"
-                />
-                <h2 className="text-xl font-semibold">{data.book.name}</h2>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
-                  {data.book.title}
-                  
-                </p>
-                <div className="flex justify-between items-center mt-4">
-                  <div className="text-lg font-medium text-green-600 dark:text-green-400">
-                    ${data.book.price}
+          <div className="space-y-4 sm:space-y-8">
+            <div className="bg-white rounded-lg shadow-sm">
+              {cart.map((item, index) => (
+                <div
+                  key={index}
+                  className={`flex flex-col sm:flex-row items-start sm:items-center p-4 sm:p-6 ${
+                    index !== cart.length - 1 ? 'border-b border-gray-200' : ''
+                  }`}
+                >
+                  {/* Image - Responsive size */}
+                  <div className="flex-shrink-0 w-full sm:w-24 h-48 sm:h-24 mb-4 sm:mb-0">
+                    <img
+                      src={item.book.image}
+                      alt={item.book.name}
+                      className="w-full h-full object-cover rounded"
+                    />
                   </div>
-                  <p className="text-gray-600 dark:text-gray-300">
-                    Quantity: {data.quantity}
-                  </p>
-                </div>
-                <p className="text-gray-600 dark:text-gray-300 mt-2">
-                  Category: {data.book.category}
-                </p>
-                <div>
-                  <button className="ml-56 bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition duration-200 ease-in-out"
-                  onClick={()=>handleDelete(data._id)}>
-                    Delete
+                  
+                  {/* Product Details */}
+                  <div className="sm:ml-6 flex-grow w-full sm:w-auto">
+                    <h3 className="text-lg font-medium">{item.book.name}</h3>
+                    <p className="text-sm text-gray-500 mt-1">{item.book.title}</p>
+                    <p className="text-sm text-gray-500">Category: {item.book.category}</p>
+                    <div className="grid grid-cols-3 sm:hidden mt-4 gap-4">
+                      <div>
+                        <p className="text-sm text-gray-500">Quantity</p>
+                        <p className="font-medium">{item.quantity}</p>
+                      </div>
+                      <div>
+                        <p className="text-sm text-gray-500">Price</p>
+                        <p className="font-medium">${item.book.price}</p>
+                      </div>
+                      <div>
+                        <p className="text-sm text-gray-500">Total</p>
+                        <p className="font-medium">${item.book.price * item.quantity}</p>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Delete Button */}
+                  <button
+                    onClick={() => handleDelete(item._id)}
+                    className="absolute top-4 right-4 sm:static p-2 text-gray-400 hover:text-red-500 transition-colors"
+                  >
+                    <Trash2 className="w-5 h-5" />
                   </button>
                 </div>
+              ))}
+            </div>
+            
+            {/* Cart Summary */}
+            <div className="bg-white rounded-lg shadow-sm p-4 sm:p-6">
+              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center">
+                <div className="mb-4 sm:mb-0">
+                  <p className="text-lg font-medium">Cart Total</p>
+                  <p className="text-sm text-gray-500">
+                    {cart.length} {cart.length === 1 ? 'item' : 'items'}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-xl sm:text-2xl font-bold">${calculateTotal().toFixed(2)}</p>
+                </div>
               </div>
-            ))}
+              
+              <button
+                onClick={handleDownload}
+                className="w-full mt-4 bg-blue-600 text-white py-2 sm:py-3 px-4 rounded-lg hover:bg-blue-700 transition-colors"
+              >
+                Download PDF
+              </button>
+            </div>
           </div>
         ) : (
-          <p className="text-center text-gray-500">Your cart is empty.</p>
+          <div className="text-center py-8 sm:py-12">
+            <p className="text-gray-500 text-lg">Your cart is empty</p>
+            <button className="mt-4 bg-blue-600 text-white py-2 px-6 rounded-lg hover:bg-blue-700 transition-colors">
+              Continue Shopping
+            </button>
+          </div>
         )}
       </div>
     </>
