@@ -5,12 +5,13 @@ import { useBook } from "../context/BookProvider";
 import Slider from "react-slick";
 import Cards from "./Card";
 import axios from "axios";
-import { json, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../Config";
-import { ChevronLeft, ChevronRight, Book, Star, Mail } from 'lucide-react';
+import { Mail } from "lucide-react";
 
 export const FreeBook = (props) => {
   const [freeBook, setFreeBook] = useState([]);
+  const [isLoading, setIsLoading] = useState(true); // Loading state
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -18,8 +19,10 @@ export const FreeBook = (props) => {
       try {
         const res = await axios.get(`${BASE_URL}/book`);
         setFreeBook(res.data.filter((data) => data.category === "free"));
+        setIsLoading(false); // Set loading to false after data is fetched
       } catch (err) {
         console.log(err);
+        setIsLoading(false); // Ensure loader stops even if there's an error
       }
     };
     getFreeBook();
@@ -34,21 +37,21 @@ export const FreeBook = (props) => {
         userId: userId,
         quantity: 1,
       });
-      console.log("Response from server:", res.data); // Log the response
-      navigate("/cart")
+      console.log("Response from server:", res.data);
+      navigate("/cart");
     } catch (err) {
-      console.log("Error adding to cart:", err); // Log any errors
+      console.log("Error adding to cart:", err);
     }
   };
 
   var settings = {
     dots: true,
-    infinite: true, // Enable infinite loop
+    infinite: true,
     speed: 500,
-    autoplay: true, // Enable autoplay
-    autoplaySpeed: 2000, // Adjust the speed of autoplay (in milliseconds)
+    autoplay: true,
+    autoplaySpeed: 2000,
     slidesToShow: 3,
-    slidesToScroll: 1, // Scroll one slide at a time for smoother experience
+    slidesToScroll: 1,
     responsive: [
       {
         breakpoint: 1024,
@@ -64,7 +67,7 @@ export const FreeBook = (props) => {
         settings: {
           slidesToShow: 2,
           slidesToScroll: 1,
-          autoplay: true, // Ensure autoplay is active for smaller screens
+          autoplay: true,
         },
       },
       {
@@ -72,7 +75,7 @@ export const FreeBook = (props) => {
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
-          autoplay: true, // Ensure autoplay is active for the smallest screens
+          autoplay: true,
         },
       },
     ],
@@ -82,13 +85,21 @@ export const FreeBook = (props) => {
     <>
       <h1 className="text-4xl font-semibold text-center">Free Offered Books</h1>
       <div className="ml-8 mr-8">
-        <Slider {...settings}>
-          {freeBook.map((item) => (
-            <Cards item={item} key={item.id} onCardClick={handleCardClick} />
-          ))}
-        </Slider>
+        {isLoading ? (
+          // Loader while data is being fetched
+          <div className="flex justify-center items-center min-h-[200px]">
+            <div className="w-12 h-12 border-4 border-pink-500 border-t-transparent rounded-full animate-spin"></div>
+          </div>
+        ) : (
+          // Render Slider once data is loaded
+          <Slider {...settings}>
+            {freeBook.map((item) => (
+              <Cards item={item} key={item.id} onCardClick={handleCardClick} />
+            ))}
+          </Slider>
+        )}
       </div>
-       <div className="bg-white py-16">
+      <div className="bg-white py-16">
         <div className="max-w-screen-xl mx-auto px-4 text-center">
           <Mail className="w-16 h-16 text-pink-500 mx-auto mb-6" />
           <h2 className="text-3xl font-bold mb-4">Stay Updated</h2>

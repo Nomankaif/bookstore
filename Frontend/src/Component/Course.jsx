@@ -5,14 +5,16 @@
   import { Sellcard } from "./Sellcard";
   export const Course = () => {
     const [book, setBook] = useState([]);
+    const [isLoading,setLoading]=useState(true);
     useEffect(() => {
       const getbook = async () => {
         const users=JSON.parse(localStorage.getItem("user"))
         const userId=users.id
         try {
           const res = await axios.get(`${BASE_URL}/user/getall/publishbooks/${userId}`);
-          console.log(res.data);
+         
           setBook(res.data);
+          setLoading(false);
         } catch (err) {
           console.log(err);
         }
@@ -38,11 +40,19 @@
              knowledge and imagination with our curated selection. Start your journey today and let us bring stories to your doorstep!
             </p>
           </div>
-          <div className="mt-12 grid grid-cols-1 md:grid-cols-4">
+          {isLoading ? (
+            <div className="flex justify-center items-center min-h-[200px]">
+            <div className="w-12 h-12 border-4 border-pink-500 border-t-transparent rounded-full animate-spin"></div>
+          </div>
+          ):(
+            <div className="mt-12 grid grid-cols-1 md:grid-cols-4">
             {book.map((item,index) => (
               <Sellcard item={item} key={index} />
             ))}
           </div>
+          )
+          }
+         
         </div>
       </>
     );
